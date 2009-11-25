@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>contactName</key>
+	<string>Noel Cower</string>
+	<key>contactEmailRot13</key>
+	<string>apbjre@tznvy.pbz</string>
+	<key>description</key>
+	<string>ooc is a modern, object-oriented, functional-ish, high-level, low-level, sexy programming language.</string>
 	<key>name</key>
 	<string>ooc</string>
 	<key>uuid</key>
