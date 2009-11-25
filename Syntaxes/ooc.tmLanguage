@@ -70,7 +70,7 @@
 			<key>end</key>
 			<string>}</string>
 			<key>name</key>
-			<string>meta.block.occ</string>
+			<string>meta.block.ooc</string>
 			<key>patterns</key>
 			<array>
 				<dict>
