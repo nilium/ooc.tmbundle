@@ -10,6 +10,11 @@
 	<string>ooc is a modern, object-oriented, functional-ish, high-level, low-level, sexy programming language.</string>
 	<key>name</key>
 	<string>ooc</string>
+	<key>ordering</key>
+	<array>
+		<string>EECF47FE-041D-4F42-B64C-414A1EFD807F</string>
+		<string>96255859-6F58-4C9D-A256-2E893AB5DD6F</string>
+	</array>
 	<key>uuid</key>
 	<string>63BB8E5A-7675-4315-9D9E-F61E16748380</string>
 </dict>
