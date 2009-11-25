@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>${1:MyCover}: cover {
+	$0
+}</string>
+	<key>name</key>
+	<string>Cover</string>
+	<key>scope</key>
+	<string>source.ooc</string>
+	<key>tabTrigger</key>
+	<string>cover</string>
+	<key>uuid</key>
+	<string>9CBA3FB2-7FE9-48ED-BD01-AAA32D887101</string>
+</dict>
+</plist>
