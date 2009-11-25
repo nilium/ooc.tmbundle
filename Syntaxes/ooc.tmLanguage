@@ -659,7 +659,7 @@
 				</dict>
 				<dict>
 					<key>begin</key>
-					<string>\bFunc\s*\(</string>
+					<string>\b(Func)\s*\(</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -671,7 +671,7 @@
 					<key>end</key>
 					<string>\)</string>
 					<key>name</key>
-					<string>keyword.other.closure.params.ooc</string>
+					<string>meta.function.pointer.ooc</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -680,7 +680,7 @@
 						</dict>
 						<dict>
 							<key>include</key>
-							<string>#variable_decl</string>
+							<string>#parameters</string>
 						</dict>
 					</array>
 				</dict>
@@ -696,7 +696,7 @@
 					<key>match</key>
 					<string>(?mx)\bFunc\b</string>
 					<key>name</key>
-					<string>meta.block.closure.ooc</string>
+					<string>meta.function.pointer.ooc</string>
 				</dict>
 			</array>
 		</dict>
