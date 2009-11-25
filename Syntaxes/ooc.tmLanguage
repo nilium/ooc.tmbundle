@@ -18,6 +18,26 @@
 	<array>
 		<dict>
 			<key>include</key>
+			<string>#comments</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#keywords</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#imports</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#ooc_numbers</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#function_call</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#class_decl</string>
 		</dict>
 		<dict>
@@ -36,10 +56,6 @@
 			<key>include</key>
 			<string>#block</string>
 		</dict>
-		<dict>
-			<key>include</key>
-			<string>#ooc_numbers</string>
-		</dict>
 	</array>
 	<key>repository</key>
 	<dict>
@@ -55,7 +71,23 @@
 			<array>
 				<dict>
 					<key>include</key>
-					<string>$self</string>
+					<string>#comments</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#keywords</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#ooc_numbers</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#function_call</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#function_decl</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -63,7 +95,7 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#ooc_numbers</string>
+					<string>#block</string>
 				</dict>
 			</array>
 		</dict>
@@ -74,7 +106,7 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>entity.name.type.cover.ooc</string>
+					<string>entity.name.type.class.ooc</string>
 				</dict>
 				<key>2</key>
 				<dict>
@@ -89,17 +121,17 @@
 				<key>4</key>
 				<dict>
 					<key>name</key>
-					<string>entity.name.type.class.generic.ooc</string>
+					<string>support.type.generic.ooc</string>
 				</dict>
 				<key>5</key>
 				<dict>
 					<key>name</key>
-					<string>storage.modifier.extends.cover.ooc</string>
+					<string>storage.modifier.extends.class.ooc</string>
 				</dict>
 				<key>6</key>
 				<dict>
 					<key>name</key>
-					<string>entity.name.type.cover.supertype.ooc</string>
+					<string>entity.other.inherited-class.ooc</string>
 				</dict>
 			</dict>
 			<key>match</key>
@@ -114,6 +146,45 @@
             </string>
 			<key>name</key>
 			<string>meta.class.ooc</string>
+		</dict>
+		<key>comments</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>//</string>
+					<key>end</key>
+					<string>$</string>
+					<key>name</key>
+					<string>comment.line.double-slash.ooc</string>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>/\*{2}</string>
+					<key>end</key>
+					<string>\*/</string>
+					<key>name</key>
+					<string>comment.block.documentation.ooc</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>match</key>
+							<string>@\w+</string>
+							<key>name</key>
+							<string>entity.name.tag.documentation.ooc</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>/\*</string>
+					<key>end</key>
+					<string>\*/</string>
+					<key>name</key>
+					<string>comment.block.ooc</string>
+				</dict>
+			</array>
 		</dict>
 		<key>cover_decl</key>
 		<dict>
@@ -137,7 +208,7 @@
 				<key>4</key>
 				<dict>
 					<key>name</key>
-					<string>entity.name.type.cover.overtype.ooc</string>
+					<string>entity.other.inherited-class.overtype.ooc</string>
 				</dict>
 				<key>5</key>
 				<dict>
@@ -147,7 +218,7 @@
 				<key>6</key>
 				<dict>
 					<key>name</key>
-					<string>entity.name.type.cover.supertype.ooc</string>
+					<string>entity.other.inherited-class.supertype.ooc</string>
 				</dict>
 			</dict>
 			<key>match</key>
@@ -155,7 +226,7 @@
             ([_A-Z]\w* \s*) : \s* (cover)
             (?:
             (?:
-                \s+(from)\s+(.+?(?= \s extends | { | $) )
+                \s+(from)\s+(?:(.+?)(?= \s extends | { | $| ;) )
             )
             |
             (?:
@@ -165,6 +236,47 @@
             </string>
 			<key>name</key>
 			<string>meta.definition.cover.ooc</string>
+		</dict>
+		<key>function_call</key>
+		<dict>
+			<key>begin</key>
+			<string>(?:(\.[a-z_]\w*)|([a-z_]\w*))\(</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>support.function.any-method.ooc</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>support.function.any-method.ooc</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>\)</string>
+			<key>name</key>
+			<string>meta.function.call.ooc</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#keywords</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#block</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#function_call</string>
+				</dict>
+			</array>
 		</dict>
 		<key>function_decl</key>
 		<dict>
@@ -191,12 +303,12 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>keyword.other.directive.ooc</string>
+							<string>keyword.other.extern.ooc</string>
 						</dict>
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.type.extern.ooc</string>
+							<string>support.function.c</string>
 						</dict>
 						<key>4</key>
 						<dict>
@@ -206,18 +318,42 @@
 						<key>5</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.tag.meta.ooc</string>
+							<string>storage.modifier.func-tag.ooc</string>
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>(?mx)(\)|(?=\{)|$)</string>
+					<string>(?mx)(\)|(?=\{)|$|;)</string>
 					<key>patterns</key>
 					<array>
+						<dict>
+							<key>include</key>
+							<string>#comments</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#keywords</string>
+						</dict>
 						<dict>
 							<key>include</key>
 							<string>#variable_decl</string>
 						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>imports</key>
+		<dict>
+			<key>begin</key>
+			<string>\b(?:use|include|import)\b</string>
+			<key>end</key>
+			<string>;|$</string>
+			<key>name</key>
+			<string>keyword.control.import.ooc</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
 				</dict>
 			</array>
 		</dict>
@@ -227,7 +363,127 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>\b(if|else|while|do|for|in|switch|match|case|)\b</string>
+					<string>\b(?:if|else|while|do|for|in|switch|match|case|return|break|continue|default)\b</string>
+					<key>name</key>
+					<string>keyword.control.ooc</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?:&amp;&amp;|\|\|)</string>
+					<key>name</key>
+					<string>keyword.operator.logical.ooc</string>
+				</dict>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other.return-type.ooc</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.ooc</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>storage.modifier.p-arith.ooc</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?mx)
+				    (\-\&gt;) \s*
+				    (?:
+				        ([A-Z_]\w*)
+				        ([@&amp;]*)
+				    )</string>
+					<key>name</key>
+					<string>meta.function.return-type.ooc</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?:[&lt;&gt;!=]=|=&gt;|[&gt;&lt;!])</string>
+					<key>name</key>
+					<string>keyword.operator.comparison.ooc</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?:[\*+\-/|&amp;:]|&lt;{2,3}|&gt;{2,3})?=</string>
+					<key>name</key>
+					<string>keyword.operator.assignment.ooc</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?:[\*\-\+/|&amp;]|&lt;{2,3}|&gt;{2,3})</string>
+					<key>name</key>
+					<string>keyword.operator.arithmetic.ooc</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\b(?:true|false)\b</string>
+					<key>name</key>
+					<string>constant.language.boolean.ooc</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\bnull\b</string>
+					<key>name</key>
+					<string>constant.language.null.ooc</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\bconst\b</string>
+					<key>name</key>
+					<string>keyword.other.directive.const.ooc</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\bas\b</string>
+					<key>name</key>
+					<string>keyword.operator.logical.as.ooc</string>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>\bFunc\s*\(</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.function.pointer.ooc</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>\)</string>
+					<key>name</key>
+					<string>keyword.other.closure.params.ooc</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#keywords</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#variable_decl</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.function.pointer.ooc</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?mx)\bFunc\b</string>
+					<key>name</key>
+					<string>meta.block.closure.ooc</string>
 				</dict>
 			</array>
 		</dict>
@@ -271,7 +527,7 @@
 				<dict>
 					<key>match</key>
 					<string>(?x) (?&lt;! 0[bcx] ) (
-                            (?: (?:\d*)\.(?:\d+) | (?:\d+)\.(?:\d*) )
+                            (?: (?:[0-9]*)\.(?:[0-9]+) | (?:[0-9]+)\.(?:[0-9]*) )
                         )</string>
 					<key>name</key>
 					<string>constant.numeric.float.ooc</string>
@@ -307,8 +563,27 @@
 			<key>patterns</key>
 			<array>
 				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>variable.other.ooc</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.ooc</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?x)([a-zA-Z_]\w*)\s*(?= := )</string>
+					<key>name</key>
+					<string>meta.definition.variable.ooc</string>
+				</dict>
+				<dict>
 					<key>begin</key>
-					<string>[_a-zA-Z]\w*</string>
+					<string>[_a-zA-Z]\w*\s*(?=,|:)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>0</key>
@@ -329,39 +604,24 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.type.ooc</string>
+							<string>storage.type.ooc</string>
 						</dict>
 					</dict>
 					<key>name</key>
-					<string>meta.definition.variable.local.ooc</string>
+					<string>meta.definition.variable.ooc</string>
 					<key>patterns</key>
 					<array>
+						<dict>
+							<key>include</key>
+							<string>#comments</string>
+						</dict>
 						<dict>
 							<key>match</key>
 							<string>[_a-zA-Z]\w*</string>
 							<key>name</key>
-							<string>variable.other.register.ooc</string>
+							<string>variable.other.ooc</string>
 						</dict>
 					</array>
-				</dict>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>variable.other.register.ooc</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>entity.name.type.ooc</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>(?x)([a-zA-Z_]\w*)\s*(?= := )</string>
-					<key>name</key>
-					<string>meta.definition.variable.local.ooc</string>
 				</dict>
 			</array>
 		</dict>
