@@ -909,7 +909,7 @@
 				</dict>
 			</dict>
 			<key>end</key>
-			<string>:\s*((?:(?:static|const|extern(?:\(^[)]+\))?)\s+)*)([A-Z_]\w*([@&amp;]*))</string>
+			<string>(?::\s*((?:(?:static|const|extern(?:\(^[)]+\))?)\s+)*)([A-Z_]\w*([@&amp;]*)))|;|$</string>
 			<key>endCaptures</key>
 			<dict>
 				<key>1</key>
