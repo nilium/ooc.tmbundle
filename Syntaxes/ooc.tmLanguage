@@ -234,7 +234,7 @@
             ([_A-Z]\w* \s*) : \s* (cover)
             (?:
             (?:
-                \s+(from)\s+(?:(.+?)\s*(?= \s extends | { | $| ;) )
+                \s+(from)\s+(?:([\s\w\d_\*]+?)\s*(?= \s extends | [/{;] | $) )
             )
             |
             (?:
@@ -368,18 +368,19 @@
 					<string>(?mx)
         		        ([_a-z]\w*) \s* : \s*
         		            (?:(static|proto|inline|final|abstract)\s+)*
-        		            (?:(extern)(?:\(([^\)]+)\))?\s+
+        		            (?:(extern)(?:\s*\(([^\)]+)\))?\s+
         		                (?:(static|proto|inline|final|abstract)\s+)*
         		            )?
         		            
-        		            (func) \s*
-        		            (?:(~[a-z_]\w*)\s*)?
+        		            (func)
+
+        		            (?:\s*(~[A-Za-z_]\w*))?
                         
                             (?:
-                                \s*&lt;\s*([^&lt;]+)\s*&gt;\s*
+                                \s*&lt;\s*([^&lt;]+)\s*&gt;
                             )?
                             
-        		            \(</string>
+        		            \s* \(</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -445,6 +446,24 @@
         		        ([A-Z_]\w*)
         		        ([@&amp;]*)
         		    ))?</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other.ooc</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.ooc</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>storage.modifier.pointer-arith.ooc</string>
+						</dict>
+					</dict>
 					<key>name</key>
 					<string>meta.function.params.ooc</string>
 					<key>patterns</key>
@@ -527,15 +546,16 @@
         		        ([_a-z]\w*) \s* : \s*
         		            
         		            (?:(static|proto|inline|final|abstract)\s+)*
-        		            (?:(extern)(?:\(([^\)]+)\))?\s+
+        		            (?:(extern)(?:\s*\(([^\)]+)\))?\s+
         		                (?:(static|proto|inline|final|abstract)\s+)*
         		            )?
         		            
-        		            (func) \s*
-        		            (?:(~[a-z_]\w*)\s*)?
+        		            (func)
+
+        		            (?:\s*(~[A-Za-z_]\w*))?
                         
                             (?:
-                                \s*&lt;\s*([^&lt;]+)\s*&gt;\s*
+                                \s*&lt;\s*([^&lt;]+)\s*&gt;
                             )?
                             
                             (?:\s*(-&gt;) \s*
@@ -589,7 +609,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?:&amp;&amp;|\|\||\#)</string>
+					<string>(?:&amp;&amp;|\|\||\#|!)</string>
 					<key>name</key>
 					<string>keyword.operator.logical.ooc</string>
 				</dict>
@@ -599,7 +619,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?:[&lt;&gt;!=]=|=&gt;|[&gt;&lt;!])</string>
+					<string>(?:[&lt;&gt;!=]=|=&gt;|[&gt;&lt;])</string>
 					<key>name</key>
 					<string>keyword.operator.comparison.ooc</string>
 				</dict>
@@ -767,13 +787,14 @@
 					<key>match</key>
 					<string>(?x) (?&lt;! 0[bcx] ) (
                             (?: (?:[0-9]*)\.(?:[0-9]+) | (?:[0-9]+)\.(?:[0-9]*) )
+                            (?: [eE][+\-]?\d+)?
                         )</string>
 					<key>name</key>
 					<string>constant.numeric.float.ooc</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?x)\b([0-9]+)</string>
+					<string>(?x)\b([0-9]+)(?: [eE][+\-]?\d+)?</string>
 					<key>name</key>
 					<string>constant.numeric.integer.ooc</string>
 				</dict>
@@ -899,7 +920,7 @@
 		<key>var_explicit_decl</key>
 		<dict>
 			<key>begin</key>
-			<string>[_a-zA-Z]\w*\s*(?=,|:\s*[A-Z_])</string>
+			<string>[_a-zA-Z]\w*\s*(?=,|:[^=])</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>0</key>
@@ -909,7 +930,20 @@
 				</dict>
 			</dict>
 			<key>end</key>
-			<string>(?::\s*((?:(?:static|const|extern(?:\(^[)]+\))?)\s+)*)([A-Z_]\w*([@&amp;]*)))|;|$</string>
+			<string>(?mx)(?:
+			(?:
+			    :\s*
+			    (?:
+			        (?:
+			            (?:
+			                (static) |
+			                (const) |
+			                (extern) (?:\s* \( \s* ([^\)]+) \s* \) )?
+			            ) \s+
+			        )*
+                )
+			    (?: ([A-Z_]\w*) ([@&amp;]*) )
+			) | ; | $ )</string>
 			<key>endCaptures</key>
 			<dict>
 				<key>1</key>
@@ -920,16 +954,31 @@
 				<key>2</key>
 				<dict>
 					<key>name</key>
-					<string>storage.type.ooc</string>
+					<string>keyword.other.ooc</string>
 				</dict>
 				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.ooc</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.c</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.ooc</string>
+				</dict>
+				<key>6</key>
 				<dict>
 					<key>name</key>
 					<string>storage.modifier.pointer-arith.ooc</string>
 				</dict>
 			</dict>
 			<key>name</key>
-			<string>meta.definition.variable.ooc</string>
+			<string>meta.definition.variable.explicit.ooc</string>
 			<key>patterns</key>
 			<array>
 				<dict>
@@ -962,7 +1011,7 @@
 			<key>match</key>
 			<string>(?x)([a-zA-Z_]\w*)\s*(?= := )</string>
 			<key>name</key>
-			<string>meta.definition.variable.ooc</string>
+			<string>meta.definition.variable.inferred.ooc</string>
 		</dict>
 		<key>variable_decl</key>
 		<dict>
