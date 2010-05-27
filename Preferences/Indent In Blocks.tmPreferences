@@ -5,12 +5,12 @@
 	<key>name</key>
 	<string>Indent In Blocks</string>
 	<key>scope</key>
-	<string>source.ooc meta.block.ooc entity.name.function.ooc</string>
+	<string>source.ooc meta.block.ooc entity.name.function</string>
 	<key>settings</key>
 	<dict>
 		<key>symbolTransformation</key>
 		<string>
-	s/^\s*/   - /
+	s/^\s*/     /
 	</string>
 	</dict>
 	<key>uuid</key>
