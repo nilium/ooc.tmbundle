@@ -171,16 +171,14 @@
 					<key>begin</key>
 					<string>/\*{2}</string>
 					<key>end</key>
-					<string>\*/</string>
+					<string>(^\s*)?\*/</string>
 					<key>name</key>
 					<string>comment.block.documentation.ooc</string>
 					<key>patterns</key>
 					<array>
 						<dict>
-							<key>match</key>
-							<string>@\w+</string>
-							<key>name</key>
-							<string>entity.name.tag.documentation.ooc</string>
+							<key>include</key>
+							<string>text.restructuredtext</string>
 						</dict>
 					</array>
 				</dict>
@@ -255,7 +253,7 @@
 		<key>function_call</key>
 		<dict>
 			<key>begin</key>
-			<string>(?:(\.[a-z_]\w*)|([a-z_]\w*))\(</string>
+			<string>(?:((?:\.[a-z_]\w*)|(?:[a-z_]\w*)(?:~[a-z_]\w*)?))\(</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
@@ -309,7 +307,7 @@
 					<key>begin</key>
 					<string>(?mx)
             	        (operator\s+(?:(?:[+\-/\*=!&lt;&gt;]|\[\])=?|\[\]|[&lt;&gt;=]|=|as))
-        	            [\s\w]*?
+        	            [\s\w~]*?
         	            \(</string>
 					<key>beginCaptures</key>
 					<dict>
@@ -324,8 +322,9 @@
 
         			(?:\s*(-&gt;) \s*
         		    (?:
-        		        ([A-Z_]\w*)
-        		        ([@&amp;]*)
+						(?:(This) |
+        		        ([A-Z_]\w*))
+        		        ([@*]*)
         		    ))?</string>
 					<key>endCaptures</key>
 					<dict>
@@ -337,9 +336,14 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type.ooc</string>
+							<string>storage.type.class.this.ooc</string>
 						</dict>
 						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.ooc</string>
+						</dict>
+						<key>4</key>
 						<dict>
 							<key>name</key>
 							<string>storage.modifier.pointer-arith.ooc</string>
@@ -367,13 +371,15 @@
 					<key>begin</key>
 					<string>(?mx)
         		        ([_a-z]\w*) \s* : \s*
-        		            (?:(static|proto|inline|final|abstract)\s+)*
-        		            (?:(extern)(?:\s*\(([^\)]+)\))?\s+
-        		                (?:(static|proto|inline|final|abstract)\s+)*
+        		            ((?:(?:static|proto|inline|final|abstract)\s+)*)
+        		            (?:(extern|unmangled)(?:\s*\(([^\)]+)\))?\s+
+        		                ((?:(?:static|proto|inline|final|abstract)\s+)*)
         		            )?
         		            
         		            (func)
-
+							
+							(?:\s*@)?
+							
         		            (?:\s*(~[A-Za-z_]\w*))?
                         
                             (?:
@@ -443,8 +449,9 @@
 					<string>(?mx)\)
 					(?:\s*(-&gt;) \s*
         		    (?:
-        		        ([A-Z_]\w*)
-        		        ([@&amp;]*)
+						(?:(This) | 
+        		        ([A-Z_]\w*))
+        		        ([@*]*)
         		    ))?</string>
 					<key>endCaptures</key>
 					<dict>
@@ -456,9 +463,14 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type.ooc</string>
+							<string>storage.type.class.this.ooc</string>
 						</dict>
 						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.ooc</string>
+						</dict>
+						<key>4</key>
 						<dict>
 							<key>name</key>
 							<string>storage.modifier.pointer-arith.ooc</string>
@@ -493,9 +505,14 @@
 						<key>10</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type.ooc</string>
+							<string>storage.type.class.this.ooc</string>
 						</dict>
 						<key>11</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.ooc</string>
+						</dict>
+						<key>12</key>
 						<dict>
 							<key>name</key>
 							<string>storage.modifier.pointer-arith.ooc</string>
@@ -545,9 +562,9 @@
 					<string>(?mx)
         		        ([_a-z]\w*) \s* : \s*
         		            
-        		            (?:(static|proto|inline|final|abstract)\s+)*
-        		            (?:(extern)(?:\s*\(([^\)]+)\))?\s+
-        		                (?:(static|proto|inline|final|abstract)\s+)*
+        		            ((?:(?:static|proto|inline|final|abstract)\s+)*)
+        		            (?:(extern|unmangled)(?:\s*\(([^\)]+)\))?\s+
+        		                ((?:(?:static|proto|inline|final|abstract)\s+)*)
         		            )?
         		            
         		            (func)
@@ -560,8 +577,9 @@
                             
                             (?:\s*(-&gt;) \s*
                 		    (?:
-                		        ([A-Z_]\w*)
-                		        ([@&amp;]*)
+								(?:(This) |
+                		        ([A-Z_]\w*))
+                		        ([@*]*)
                 		    ))?
         		            </string>
 					<key>name</key>
@@ -602,10 +620,23 @@
 					<string>variable.language.this.ooc</string>
 				</dict>
 				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.class.this.ooc</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>storage.modifier.pointer-arith.ooc</string>
+						</dict>
+					</dict>
 					<key>match</key>
-					<string>\bThis\b</string>
+					<string>\b(This)([@&amp;*]*|\b)</string>
 					<key>name</key>
-					<string>storage.type.class.this.ooc</string>
+					<string>meta.type.class.this.ooc</string>
 				</dict>
 				<dict>
 					<key>match</key>
@@ -652,6 +683,12 @@
 					<string>\bconst\b</string>
 					<key>name</key>
 					<string>keyword.other.directive.const.ooc</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\bstatic\b</string>
+					<key>name</key>
+					<string>keyword.other.directive.static.ooc</string>
 				</dict>
 				<dict>
 					<key>captures</key>
@@ -843,7 +880,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>([_A-Z]\w*)([@&amp;]*)</string>
+					<string>([_A-Z]\w*)([&amp;@*]*)</string>
 					<key>name</key>
 					<string>meta.function.nameless-typed.ooc</string>
 				</dict>
@@ -862,7 +899,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>:\s*([A-Z_]\w*([@&amp;]*))</string>
+					<string>:\s*([A-Z_]\w*([@&amp;*]*))</string>
 					<key>name</key>
 					<string>meta.function.parameter.type.ooc</string>
 				</dict>
@@ -899,9 +936,14 @@
 				<key>2</key>
 				<dict>
 					<key>name</key>
-					<string>storage.type.ooc</string>
+					<string>storage.type.class.this.ooc</string>
 				</dict>
 				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.ooc</string>
+				</dict>
+				<key>4</key>
 				<dict>
 					<key>name</key>
 					<string>storage.modifier.pointer-arith.ooc</string>
@@ -911,8 +953,9 @@
 			<string>(?mx)
 		    (\-\&gt;) \s*
 		    (?:
-		        ([A-Z_]\w*)
-		        ([@&amp;]*)
+				(?:(This) |
+		        ([A-Z_]\w*))
+		        ([@*]*)
 		    )</string>
 			<key>name</key>
 			<string>meta.function.return-type.ooc</string>
@@ -942,7 +985,8 @@
 			            ) \s+
 			        )*
                 )
-			    (?: ([A-Z_]\w*) ([@&amp;]*) )
+			    (?: (?: (This) | ([A-Z_]\w*)) ([@&amp;]*) )
+				(?: \s* \&lt;\s*([A-Z_]\w*)\s*\&gt; )?
 			) | ; | $ )</string>
 			<key>endCaptures</key>
 			<dict>
@@ -969,12 +1013,22 @@
 				<key>5</key>
 				<dict>
 					<key>name</key>
-					<string>storage.type.ooc</string>
+					<string>storage.type.class.this.ooc</string>
 				</dict>
 				<key>6</key>
 				<dict>
 					<key>name</key>
+					<string>storage.type.ooc</string>
+				</dict>
+				<key>7</key>
+				<dict>
+					<key>name</key>
 					<string>storage.modifier.pointer-arith.ooc</string>
+				</dict>
+				<key>8</key>
+				<dict>
+					<key>name</key>
+					<string>support.type.generic.ooc</string>
 				</dict>
 			</dict>
 			<key>name</key>
