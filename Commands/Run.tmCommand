@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>saveActiveFile</string>
+	<key>command</key>
+	<string>#! /usr/bin/env ruby
+
+require "#{ENV["TM_SUPPORT_PATH"]}/lib/tm/executor"
+require "#{ENV["TM_SUPPORT_PATH"]}/lib/tm/save_current_document"
+
+TextMate.save_current_document
+TextMate::Executor.make_project_master_current_document
+
+TextMate::Executor.run(ENV["ROCK"], "-r", ENV["TM_FILENAME"])
+
+system("rm #{ENV["TM_FILENAME"].match(/(.+)\./)[1]}")</string>
+	<key>input</key>
+	<string>document</string>
+	<key>keyEquivalent</key>
+	<string>@r</string>
+	<key>name</key>
+	<string>Run</string>
+	<key>output</key>
+	<string>showAsHTML</string>
+	<key>scope</key>
+	<string>source.ooc</string>
+	<key>uuid</key>
+	<string>7CA4CB58-F4C3-47BE-A7FF-1D201B3F800A</string>
+</dict>
+</plist>
