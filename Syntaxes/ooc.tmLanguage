@@ -46,6 +46,10 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>#interface_decl</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#cover_decl</string>
 		</dict>
 		<dict>
@@ -144,12 +148,12 @@
 			</dict>
 			<key>match</key>
 			<string>(?mx)
-            ([_A-Z]\w* \s*) : \s* (abstract\s+)? (class)
+            ([_A-Z]\w* \s*) : \s* (class)
             (?:
                 \s*&lt;\s*([^&lt;]+)\s*&gt;\s*
             )?
-            (?:
-                \s+(extends)\s+([_A-Z]\w*)
+		   (?:
+                \s* (extends)
             )?
             </string>
 			<key>name</key>
@@ -160,35 +164,79 @@
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>begin</key>
-					<string>//</string>
-					<key>end</key>
-					<string>$</string>
-					<key>name</key>
-					<string>comment.line.double-slash.ooc</string>
-				</dict>
-				<dict>
-					<key>begin</key>
-					<string>/\*{2}</string>
-					<key>end</key>
-					<string>(^\s*)?\*/</string>
-					<key>name</key>
-					<string>comment.block.documentation.ooc</string>
-					<key>patterns</key>
-					<array>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
 						<dict>
-							<key>include</key>
-							<string>text.restructuredtext</string>
+							<key>name</key>
+							<string>meta.toc-list.banner.block.ooc</string>
 						</dict>
-					</array>
+					</dict>
+					<key>match</key>
+					<string>^/\* =(\s*.*?)\s*= \*/$\n?</string>
+					<key>name</key>
+					<string>comment.block.ooc</string>
 				</dict>
 				<dict>
 					<key>begin</key>
 					<string>/\*</string>
+					<key>captures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.comment.ooc</string>
+						</dict>
+					</dict>
 					<key>end</key>
 					<string>\*/</string>
 					<key>name</key>
 					<string>comment.block.ooc</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\*/.*\n</string>
+					<key>name</key>
+					<string>invalid.illegal.stray-comment-end.ooc</string>
+				</dict>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>meta.toc-list.banner.line.ooc</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^// =(\s*.*?)\s*=\s*$\n?</string>
+					<key>name</key>
+					<string>comment.line.banner.ooc</string>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>//</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.comment.ooc</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>$\n?</string>
+					<key>name</key>
+					<string>comment.line.double-slash.ooc</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>match</key>
+							<string>(?&gt;\\\s*\n)</string>
+							<key>name</key>
+							<string>punctuation.separator.continuation.ooc</string>
+						</dict>
+					</array>
 				</dict>
 			</array>
 		</dict>
@@ -602,6 +650,51 @@
 					<string>#comments</string>
 				</dict>
 			</array>
+		</dict>
+		<key>interface_decl</key>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.type.class.ooc</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>storage.modifier.abstract.ooc</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.class.ooc</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>support.type.generic.ooc</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>storage.modifier.extends.class.ooc</string>
+				</dict>
+				<key>6</key>
+				<dict>
+					<key>name</key>
+					<string>entity.other.inherited-class.ooc</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(?mx)
+            ([_A-Z]\w* \s*) : \s* (interface)
+            (?:
+                \s*&lt;\s*([^&lt;]+)\s*&gt;\s*
+            )?
+            </string>
+			<key>name</key>
+			<string>meta.interface.ooc</string>
 		</dict>
 		<key>keywords</key>
 		<dict>
